@@ -1,101 +1,118 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
-export default function Home() {
+export default function HomePage() {
+  const [showLetter, setShowLetter] = useState(false);
+  const [openEnvelope, setOpenEnvelope] = useState(false);
+  const [answered, setAnswered] = useState(false);
+  const [noShake, setNoShake] = useState(false);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="flex flex-col items-center justify-center min-h-screen bg-pink-100">
+      {/* Mailbox Animation */}
+      {!showLetter ? (
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="relative flex flex-col items-center"
+        >
+          <motion.img
+            src="/heartspinning.gif"
+            alt="Mailbox"
+            className="w-40 h-40"
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.5 }}
+            className="mt-4 text-lg font-semibold text-pink-600"
+          >
+            Hi Dafne, you got a letter! 💌
+          </motion.div>
+          <motion.img
+            src="/cuteletter.png"
+            alt="Letter"
+            className="w-20 h-20 mt-4 cursor-pointer"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2, duration: 0.5 }}
+            onClick={() => setShowLetter(true)}
+          />
+        </motion.div>
+      ) : (
+        // Envelope Opening Animation
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative flex flex-col items-center"
+        >
+          <motion.img
+            src="/cuteletter.png"
+            alt="Envelope"
+            className="w-40 h-40 cursor-pointer"
+            onClick={() => setOpenEnvelope(true)}
+          />
+          {openEnvelope && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="absolute top-0 flex flex-col items-center"
+            >
+              <motion.img
+                src="/me.jpg"
+                alt="Paper"
+                className="w-32 h-32"
+              />
+              {!answered ? (
+                <>
+                  <motion.p
+                    className="mt-2 text-lg font-bold text-pink-700"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                  >
+                    Will you be my Valentine? ❤️
+                  </motion.p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+                  {/* Yes Button */}
+                  <motion.button
+                    className="mt-4 px-6 py-2 text-white bg-pink-500 rounded-full shadow-lg hover:bg-pink-600 transition-all"
+                    onClick={() => setAnswered(true)}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    Yes! 🥰
+                  </motion.button>
+
+                  {/* No Button with Shake Effect */}
+                  <motion.button
+                    className="mt-2 px-6 py-2 text-white bg-gray-400 rounded-full shadow-lg hover:bg-gray-500 transition-all"
+                    onClick={() => setNoShake(true)}
+                    animate={noShake ? { x: [-5, 5, -5, 5, 0] } : {}}
+                    transition={{ duration: 0.3 }}
+                  >
+                    No 😢
+                  </motion.button>
+                </>
+              ) : (
+                <motion.p
+                  className="mt-4 text-lg font-bold text-pink-600"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  Yay! Can't wait for our Valentine's Day! 💖✨
+                </motion.p>
+              )}
+            </motion.div>
+          )}
+        </motion.div>
+      )}
+    </main>
   );
 }
